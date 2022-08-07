@@ -2,11 +2,11 @@
     .main-container {
         min-height: 100%;
         transition: margin-left 0.28s;
-        margin-left: $sideBarWidth;
+        margin-left: margin-left #{$sideBarDuration};
         position: relative;
     }
     .sidebar-container {
-        transition: width 0.28s;
+        transition: width #{$sideBarDuration};
         width: $sideBarWidth !important;
         height: 100%;
         position: fixed;
