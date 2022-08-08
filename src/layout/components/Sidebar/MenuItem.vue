@@ -1,12 +1,10 @@
 <template>
-  <!-- element icon -->
-  <i v-if="icon.includes('el-icon')" class="sub-el-icon" :class="icon"></i>
-  <!-- 非 element icon -->
-  <svg-icon v-else :icon="icon"></svg-icon>
-  <span>{{ title }}</span>
+  <svg-icon :icon="icon"></svg-icon>
+  <span>{{ generateTitle(title) }}</span>
 </template>
 
 <script setup>
+import { generateTitle } from '@/utils/i18n'
 import { defineProps } from 'vue'
 defineProps({
   title: {
@@ -20,5 +18,4 @@ defineProps({
 })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

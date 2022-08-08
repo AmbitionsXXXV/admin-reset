@@ -7,7 +7,7 @@
         src="https://m.imooc.com/static/wap/static/common/img/logo-small@2x.png"
       />
       <h1 class="logo-title" v-if="$store.getters.sidebarOpened">
-        ONE OK ROCK
+        imooc-admin
       </h1>
     </div>
     <el-scrollbar>
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import SidebarMenu from './SidebarMenu.vue'
+import SidebarMenu from './SidebarMenu'
 import {} from 'vue'
 
 const logoHeight = 44

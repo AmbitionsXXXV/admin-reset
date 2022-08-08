@@ -2,69 +2,82 @@
   <div class="login-container">
     <el-form
       class="login-form"
+      ref="loginFromRef"
       :model="loginForm"
-      ref="loginFormRef"
-      :rules="loginRules">
+      :rules="loginRules"
+    >
       <div class="title-container">
-        <h3 class="title">用户登录</h3>
+        <h3 class="title">{{ $t('msg.login.title') }}</h3>
+        <lang-select class="lang-select" effect="light"></lang-select>
       </div>
-      <!-- username -->
-      <el-form-item prop="username" >
+
+      <el-form-item prop="username">
         <span class="svg-container">
-            <svg-icon icon="user"></svg-icon>
-          </span>
-        <el-input placeholder="username" name="username" type="text" v-model="loginForm.username"></el-input>
+          <svg-icon icon="user" />
+        </span>
+        <el-input
+          placeholder="username"
+          name="username"
+          type="text"
+          v-model="loginForm.username"
+        />
       </el-form-item>
-      <!-- password -->
+
       <el-form-item prop="password">
         <span class="svg-container">
-          <span class="svg-container">
-            <svg-icon icon="password"></svg-icon>
-          </span>
+          <svg-icon icon="password" />
         </span>
         <el-input
           placeholder="password"
           name="password"
-          v-model="loginForm.password"
           :type="passwordType"
-          ></el-input>
+          v-model="loginForm.password"
+        />
         <span class="show-pwd">
-          <span class="svg-container" @click="onChangePwdType">
-            <svg-icon
-              :icon="passwordType === 'password' ? 'eye' : 'eye-open'"
-              ></svg-icon>
-          </span>
+          <svg-icon
+            :icon="passwordType === 'password' ? 'eye' : 'eye-open'"
+            @click="onChangePwdType"
+          />
         </span>
       </el-form-item>
 
-      <!-- 登录按钮 -->
       <el-button
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         :loading="loading"
-        @click="handlerLogin"
-        >立即登录</el-button>
+        @click="handleLogin"
+        >{{ $t('msg.login.loginBtn') }}</el-button
+      >
+
+      <div class="tips" v-html="$t('msg.login.desc')"></div>
     </el-form>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import LangSelect from '@/components/LangSelect/index.vue'
+import { ref, computed } from 'vue'
 import { validatePassword } from './rules'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { watchSwitchLang } from '@/utils/i18n'
+
 // 数据源
 const loginForm = ref({
   username: 'super-admin',
   password: '123456'
 })
-
 // 验证规则
+const i18n = useI18n()
 const loginRules = ref({
   username: [
     {
       required: true,
       trigger: 'blur',
-      message: '用户名为必填项'
+      message: computed(() => {
+        return i18n.t('msg.login.usernameRule')
+      })
     }
   ],
   password: [
@@ -75,14 +88,14 @@ const loginRules = ref({
     }
   ]
 })
+// 监听语言变化，重新进行表单校验。issue: https://coding.imooc.com/learn/questiondetail/254087.html
+watchSwitchLang(() => {
+  loginFromRef.value.validate()
+})
 
-// 处理密码框显示问题
+// 处理密码框文本显示状态
 const passwordType = ref('password')
-// template中绑定的方法，直接声明即可
 const onChangePwdType = () => {
-  // 当passwordType的值位password的时候
-  // 使用热风生命的数据，在script中使用的时候，需要加.value来获取具体的值
-  // 而在tempalte中使用时，不需要加
   if (passwordType.value === 'password') {
     passwordType.value = 'text'
   } else {
@@ -90,21 +103,22 @@ const onChangePwdType = () => {
   }
 }
 
-// 处理登录事件
+// 登录动作处理
 const loading = ref(false)
+const loginFromRef = ref(null)
 const store = useStore()
-const loginFormRef = ref(null)
-const handlerLogin = () => {
-  // 1.进行表单校验
-  loginFormRef.value.validate(valid => {
+const router = useRouter()
+const handleLogin = () => {
+  loginFromRef.value.validate(valid => {
     if (!valid) return
-    // 2.触发登陆动作
+
     loading.value = true
     store
       .dispatch('user/login', loginForm.value)
       .then(() => {
         loading.value = false
-        // 3.进行登陆后处理
+        // 登录后操作
+        router.push('/')
       })
       .catch(err => {
         console.log(err)
@@ -141,7 +155,7 @@ $cursor: #fff;
       color: #454545;
     }
 
-    ::v-deep .el-input {
+    :v-deep .el-input {
       display: inline-block;
       height: 47px;
       width: 85%;
@@ -155,6 +169,19 @@ $cursor: #fff;
         color: $light_gray;
         height: 47px;
         caret-color: $cursor;
+      }
+    }
+  }
+
+  .tips {
+    font-size: 16px;
+    line-height: 28px;
+    color: #fff;
+    margin-bottom: 10px;
+
+    span {
+      &:first-of-type {
+        margin-right: 16px;
       }
     }
   }
@@ -175,6 +202,17 @@ $cursor: #fff;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
+    }
+
+    :v-deep .lang-select {
+      position: absolute;
+      top: 4px;
+      right: 0;
+      background-color: white;
+      font-size: 22px;
+      padding: 4px;
+      border-radius: 4px;
+      cursor: pointer;
     }
   }
 

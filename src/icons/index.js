@@ -1,6 +1,4 @@
 import SvgIcon from '@/components/SvgIcon'
-// 1.导入全部svg
-// 2.完成SvgIcon的全局注册
 
 // https://webpack.docschina.org/guides/dependency-management/#requirecontext
 // 通过 require.context() 函数来创建自己的 context

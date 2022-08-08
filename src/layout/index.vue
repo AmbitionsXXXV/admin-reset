@@ -1,29 +1,32 @@
 <template>
-  <div class="app-wrapper" :class="[$store.getters.sidebarOpened ? 'openSidebar' : 'hideSidebar']">
+  <div
+    class="app-wrapper"
+    :class="[$store.getters.sidebarOpened ? 'openSidebar' : 'hideSidebar']"
+  >
     <!-- 左侧 menu -->
     <sidebar
-    class="sidebar-container"
-    :style="{ backgroundColor: variables.menuBg }"
-    ></sidebar>
+      id="guide-sidebar"
+      class="sidebar-container"
+      :style="{ backgroundColor: $store.getters.cssVar.menuBg }"
+    />
     <div class="main-container">
       <div class="fixed-header">
-        <!-- 顶部 nav -->
-        <navbar></navbar>
+        <!-- 顶部的 navbar -->
+        <navbar />
+        <!-- tags -->
+        <tags-view id="guide-tags"></tags-view>
       </div>
       <!-- 内容区 -->
-      <app-main></app-main>
+      <app-main />
     </div>
   </div>
 </template>
 
 <script setup>
-import Navbar from './components/Navbar.vue'
+import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
-import AppMain from './components/AppMain.vue'
-import variables from '@/styles/variables.module.scss'
-import {} from 'vue'
-
-console.log(variables)
+import AppMain from './components/AppMain'
+import TagsView from '@/components/TagsView'
 </script>
 
 <style lang="scss" scoped>
@@ -43,7 +46,7 @@ console.log(variables)
   right: 0;
   z-index: 9;
   width: calc(100% - #{$sideBarWidth});
-  transition: width #{$sideBarDuration}
+  transition: width #{$sideBarDuration};
 }
 
 .hideSidebar .fixed-header {

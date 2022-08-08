@@ -2,16 +2,16 @@
   <el-breadcrumb class="breadcrumb" separator="/">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item
-      v-for="(item, index) in breadcrumbData"
-      :key="item.path"
+        v-for="(item, index) in breadcrumbData"
+        :key="item.path"
       >
         <!-- 不可点击项 -->
         <span v-if="index === breadcrumbData.length - 1" class="no-redirect">{{
-          item.meta.title
+          generateTitle(item.meta.title)
         }}</span>
         <!-- 可点击项 -->
         <a v-else class="redirect" @click.prevent="onLinkClick(item)">{{
-          item.meta.title
+          generateTitle(item.meta.title)
         }}</a>
       </el-breadcrumb-item>
     </transition-group>
@@ -19,6 +19,7 @@
 </template>
 
 <script setup>
+import { generateTitle } from '@/utils/i18n'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -27,11 +28,9 @@ const route = useRoute()
 // 生成数组数据
 const breadcrumbData = ref([])
 const getBreadcrumbData = () => {
-  // 当前路由的标准化路由记录
   breadcrumbData.value = route.matched.filter(
     item => item.meta && item.meta.title
   )
-  console.log(breadcrumbData.value)
 }
 // 监听路由变化时触发
 watch(
@@ -43,10 +42,10 @@ watch(
     immediate: true
   }
 )
+
 // 处理点击事件
 const router = useRouter()
 const onLinkClick = item => {
-  console.log(item)
   router.push(item.path)
 }
 
@@ -55,6 +54,7 @@ const store = useStore()
 // eslint-disable-next-line
 const linkHoverColor = ref(store.getters.cssVar.menuBg)
 </script>
+
 <style lang="scss" scoped>
 .breadcrumb {
   display: inline-block;
@@ -62,7 +62,7 @@ const linkHoverColor = ref(store.getters.cssVar.menuBg)
   line-height: 50px;
   margin-left: 8px;
 
-  ::v-deep .no-redirect {
+  .no-redirect {
     color: #97a8be;
     cursor: text;
   }

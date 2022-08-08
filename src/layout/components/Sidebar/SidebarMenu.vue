@@ -1,38 +1,42 @@
 <template>
   <!-- 一级 menu 菜单 -->
   <el-menu
-    :collapse="!$store.getters.sidebarOpened"
     :default-active="activeMenu"
-    :uniqueOpened="true"
+    :collapse="!$store.getters.sidebarOpened"
     :background-color="$store.getters.cssVar.menuBg"
     :text-color="$store.getters.cssVar.menuText"
     :active-text-color="$store.getters.cssVar.menuActiveText"
+    :unique-opened="true"
     router
   >
     <sidebar-item
       v-for="item in routes"
       :key="item.path"
       :route="item"
-      ></sidebar-item>
+    ></sidebar-item>
   </el-menu>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import SidebarItem from './SidebarItem'
 import { useRouter, useRoute } from 'vue-router'
 import { filterRouters, generateMenus } from '@/utils/route'
-import SidebarItem from './SidebarItem.vue'
 
+// 计算路由表结构
 const router = useRouter()
 const routes = computed(() => {
   const filterRoutes = filterRouters(router.getRoutes())
   return generateMenus(filterRoutes)
 })
 
-// 默认激活项
+// 计算高亮 menu 的方法
 const route = useRoute()
 const activeMenu = computed(() => {
-  const { path } = route
+  const { meta, path } = route
+  if (meta.activeMenu) {
+    return meta.activeMenu
+  }
   return path
 })
 </script>

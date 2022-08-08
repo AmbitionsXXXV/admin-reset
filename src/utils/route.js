@@ -1,4 +1,4 @@
-import path from 'path-browserify'
+import path from 'path'
 
 /**
  * 返回所有子路由

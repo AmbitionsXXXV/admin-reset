@@ -23,6 +23,7 @@ module.exports = defineConfig({
       .alias
       .set('@', path.resolve(__dirname, 'src'))
       .set('views', '@/views')
+      .set('path', require.resolve('path-browserify'))
     // 设置 svg-sprite-loader
     config.module
       // 规则
