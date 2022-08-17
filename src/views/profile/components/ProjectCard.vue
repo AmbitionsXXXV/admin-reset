@@ -10,13 +10,13 @@
       <!-- 头像 -->
       <div class="box-center">
         <pan-thumb
-          :image="$store.getters.userInfo.avatar"
+          image="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201912%2F14%2F20191214225719_xdylu.png&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1663326062&t=6241ea6c9e3820f408fd60347ace94a0"
           :height="'100px'"
           :width="'100px'"
           :hoverable="false"
         >
           <div>Hello</div>
-          {{ $store.getters.userInfo.title }}
+          Et cetera
         </pan-thumb>
       </div>
       <!-- 姓名 && 角色 -->

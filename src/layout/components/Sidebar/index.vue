@@ -4,7 +4,7 @@
       <el-avatar
         :size="logoHeight"
         shape="square"
-        src="https://m.imooc.com/static/wap/static/common/img/logo-small@2x.png"
+        src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg3.doubanio.com%2Flpic%2Fs27985291.jpg&refer=http%3A%2F%2Fimg3.doubanio.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1663326693&t=57fefd77be924c5dc694bed2e8f7e1c7"
       />
       <h1 class="logo-title" v-if="$store.getters.sidebarOpened">
         imooc-admin

@@ -16,16 +16,21 @@
     </el-card>
     <el-card>
       <el-table :data="tableData" border style="width: 100%">
+        <!-- 索引 -->
         <el-table-column label="#" type="index" />
+        <!-- 姓名 -->
         <el-table-column prop="username" :label="$t('msg.excel.name')">
         </el-table-column>
+        <!-- 手机号 -->
         <el-table-column prop="mobile" :label="$t('msg.excel.mobile')">
         </el-table-column>
+        <!-- 头像 -->
         <el-table-column :label="$t('msg.excel.avatar')" align="center">
           <template v-slot="{ row }">
             <el-image class="avatar" :src="row.avatar"></el-image>
           </template>
         </el-table-column>
+        <!-- 角色 -->
         <el-table-column :label="$t('msg.excel.role')">
           <template #default="{ row }">
             <div v-if="row.role && row.role.length > 0">
@@ -38,11 +43,13 @@
             </div>
           </template>
         </el-table-column>
+        <!-- 时间 -->
         <el-table-column :label="$t('msg.excel.openTime')">
           <template #default="{ row }">
             {{ $filters.dateFilter(row.openTime) }}
           </template>
         </el-table-column>
+        <!-- 操作 -->
         <el-table-column
           :label="$t('msg.excel.action')"
           fixed="right"
