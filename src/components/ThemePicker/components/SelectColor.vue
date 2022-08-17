@@ -1,5 +1,8 @@
 <template>
-  <el-dialog title="提示" :model-value="modelValue" @close="closed" width="22%">
+  <el-dialog title="提示"
+    :model-value="modelValue"
+    @close="closed"
+    width="22%">
     <div class="center">
       <p class="title">{{ $t('msg.theme.themeColorChange') }}</p>
       <el-color-picker
